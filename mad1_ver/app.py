@@ -10,11 +10,13 @@ def hello_world():
 def test():
     return render_template('index.html')
 
+
 @app.route('/test1')
 def test1():
     msg = 'hi campers'
-    var2 = False
-    return render_template('index1.html', var1=msg, var3=var2)
+    var2 = True
+    var4 = ['iitm', 'iitkgp', 'iitb', 'iitd']
+    return render_template('index1.html', var1=msg, var3=var2, var5=var4)
 
 if __name__ == '__main__':
     app.run(debug=True)
