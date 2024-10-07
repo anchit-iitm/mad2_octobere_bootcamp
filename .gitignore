@@ -1,2 +1,5 @@
 day2/.venv/
 day3/.venv/
+
+.venv/
+__pycache__/
