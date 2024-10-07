@@ -12,3 +12,9 @@ node -v # should print `v20.18.0`
 npm -v # should print `10.8.2`
 
 
+project creation cmds
+vue cli - vue create hello-world / vue create ~frontend_folder_name~   {dont go with the presets, my suggestion}
+
+vue.js_doc - npm create vue@latest
+
+vite - vue create hello-world, afterwards select vue from options
