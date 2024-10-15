@@ -36,5 +36,11 @@ def test3():
     # return redirect('/test1')
     return redirect(url_for('test1'))
 
+@app.route('/test4/<int:var1>', methods=['PUT'])
+def test4(var1):
+    name_var = request.form.get('name')
+    print(name_var, var1)
+    return render_template('index2.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
