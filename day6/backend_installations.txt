@@ -1,0 +1,41 @@
+redis:(venv not required for that terminal)
+    linux- redis server installation cmd - `sudo apt install -y redis-server` (prefered)
+    win - use the exe installer from the redis website
+
+    py lib - pip install redis, (if you are using venv, install it in venv, else its fine)
+
+    {optional}
+    gui for redis-server- install it in win from the redis website, name is redis-insight (if im using wsl, still would install redis-insight in win)
+        as insight would communicate with redis-server using localhost
+
+    linux cmds
+    cmd to start redis-server: redis-server
+    cmd to stop redis-server: sudo service redis-server stop
+
+celery:
+    py lib: pip install celery, (if you are using venv, install it in venv, else its fine)
+
+    worker cmd:
+        celery -A app.app_celery worker --loglevel=INFO
+
+smtp server:
+    suggestion use a local dev smtp server, easier to debug error
+        mailhog / mailpit
+
+        mailhog: https://github.com/mailhog/MailHog
+        linux instl cmd: 
+        sudo apt-get -y install golang-go; go install github.com/mailhog/MailHog@latest
+
+        linux startup cmd: ~/go/bin/MailHog
+
+        mailpit: https://github.com/axllent/mailpit
+        linux instl cmd: 
+        sudo bash < <(curl -sL https://raw.githubusercontent.com/axllent/mailpit/develop/install.sh)
+
+generating a mail:
+    py lib: pip install flask_mail
+    smtplib could also be used, its pre-installed
+
+
+caching:
+    py lib: pip install flask_caching
