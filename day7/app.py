@@ -9,6 +9,8 @@ def create_celery(init_app):
     init_celery = Celery(init_app.import_name)
     import celery_config
     init_celery.config_from_object(celery_config)
+    # from config import celeryConfig
+    # init_celery.config_from_object('celeryConfig')
     return init_celery
 
 def create_app():
@@ -30,22 +32,51 @@ def create_app():
     from flask_cors import CORS
     CORS(init_app)
 
+    from mailer import mailer
+    mailer.init_app(init_app)
+
+    from caching import cache
+    cache.init_app(init_app)
+
     return init_app, init_api
     # return init_app, init_api, init_celery
 
 # app, api = create_app()
 app, api = create_app()
-# app_celery = create_celery(app)
-
-from celery import Celery
-app_celery = Celery(app.import_name)
-import celery_config
-app_celery.config_from_object('celery_config')
+app_celery = create_celery(app)
 import celery_tasks
-# from celery import Tas
+
+from celery.schedules import crontab
+app_celery.conf.beat_schedule = {
+    "schedule1": {
+        "task": "celery_tasks.hello",
+        "schedule": crontab(minute=56, hour=19) # uses 24hr format
+    },
+    "schedule2": {
+        "task": "celery_tasks.add",
+        "schedule": crontab(minute=23, hour=14), # uses 24hr format
+        "args": (1, 2)
+    }
+}
+
+# from celery import Celery
+# app_celery = Celery(app.name)
+# # app_celery = Celery(app.import_name)
+# import celery_config
+# app_celery.config_from_object('celery_config')
+# # import celery_tasks
+# # from celery import Tas
+
+@app_celery.task()
+def hello_world():
+    return 'Hello, World! from anchit'
 
 @app.route('/helloworld')
-def hello_world():
+def hello_world1():
+    # hello_world.delay()
+    celery_tasks.hello.delay()
+    celery_tasks.add.delay(1, 2)
+    celery_tasks.test_email.delay()    
     return 'Hello, World! from anchit'
 
 @app.route('/test')
@@ -56,12 +87,12 @@ def test():
 def testcelery():
     data = request.json
     a,b = data['a'], data['b']
-    print(type(a))=
-    # add.delay(a, b)
-    result = celery_tasks.add.delay(a, b)
+    print(type(a))
+    result = celery_tasks.search_category.delay(a)
+    # result = celery_tasks.add.delay(a, b)
     while not result.ready():
         pass
-    return {"status": result.status, "result": result.result, "id": result.id}, 201
+    return {"status": result.status, "id": result.id, "result": result.result}, 201
 
 
 @app.route('/test12345')

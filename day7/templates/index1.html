@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>hello world from index.html</h1>
+
+    {% if var3 %}
+    <h3>{{ var1 }}</h3>
+    <p>line 13 - {{ var5 }}</p>
+    {% else %}
+    <h3>data not found</h3>
+    {% endif %}
+
+    {% if var5 %}
+    {% for i in var5 %}
+    <p>line 20 - {{ i }}</p>
+    {% endfor %}
+    {% endif %}
+</body>
+</html>
